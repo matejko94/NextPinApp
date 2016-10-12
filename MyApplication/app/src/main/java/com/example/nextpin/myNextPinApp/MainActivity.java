@@ -18,10 +18,11 @@ import com.example.nextpin.myNextPinApp.preference.SharedPrefUtils;
 import net.nextpin.geolib.NextPin;
 import net.nextpin.geolib.NextPinListener;
 import net.nextpin.geolib.types.GeoActivity;
+import net.nextpin.geolib.types.GeoPrediction;
 
 import java.util.Calendar;
 import java.util.List;
-public class MainActivity extends AppCompatActivity implements NextPinListener,NextPin.GeoActivityReceiver {
+public class MainActivity extends AppCompatActivity implements NextPinListener,NextPin.GeoActivityReceiver, NextPin.GeoPredictionReceiver {
 
     String nextPinToken;
     TextView tvPermissionsProblem;
@@ -120,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
             test=test+geoActivity.getName()+" "+geoActivity.getDuration()+" ";
         textView.setText(test);
 
+        //for specific stay point you can call next place prediction
+        NextPin.getNextPinInstance(MainActivity.this).getGeoPrediction(this, list.get(0).getLocationId());
+
     }
 
 
@@ -159,5 +163,10 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
     @Override
     public void onEditStaypPoint() {
 
+    }
+
+    @Override
+    public void receiveGeoPrediction(List<GeoPrediction> list) {
+        //implement what you want to do with prediction for specific activity
     }
 }
