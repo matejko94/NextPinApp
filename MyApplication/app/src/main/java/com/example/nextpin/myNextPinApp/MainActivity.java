@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,11 +24,25 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NextPinListener,NextPin.GeoActivityReceiver {
 
     String nextPinToken;
+    TextView tvPermissionsProblem;
+
+    private static final String TAG = "OneDayFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        //request for permission which app needs it
+        tvPermissionsProblem = (TextView)findViewById(R.id.tvPermissionsProblem);
+        tvPermissionsProblem.setMovementMethod(LinkMovementMethod.getInstance());
+        tvPermissionsProblem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NextPin.requestPermissions(MainActivity.this);
+            }
+        });
 
         NextPin nextPin= NextPin.getNextPinInstance(this);
         nextPinToken = SharedPrefUtils.getString(getApplicationContext(),
@@ -57,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
         nextPin.getGeoActivities(this,start,end);
 
 
+        //It is posiible to make prediction for specific
+        // nextPin.getGeoPrediction();
+
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -72,8 +93,26 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //check whether all permissions are intact
+        String missingPermissionsStr = NextPin.checkForMissingPermissions(MainActivity.this);
+        if (!"".equals(missingPermissionsStr)){
+            Log.d(TAG,"Problem with permissions!");
+            tvPermissionsProblem.setVisibility(View.VISIBLE);
+            missingPermissionsStr+= " <a href=\"#\">Click Here</a>";
+            tvPermissionsProblem.setText(Html.fromHtml(missingPermissionsStr));
+        }
+        else{
+            //if the permissions are ok now, remove this view.
+            tvPermissionsProblem.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void receiveGeoActivities(List<GeoActivity> list) {
 
+        //activity for specific day
 
         TextView textView= (TextView) findViewById(R.id.testView);
         String test="";
@@ -82,6 +121,10 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
         textView.setText(test);
 
     }
+
+
+
+
 
     @Override
     public void onLocalLocationDetected(Location location) {
