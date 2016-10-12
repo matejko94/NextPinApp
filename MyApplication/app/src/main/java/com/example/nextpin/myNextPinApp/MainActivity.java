@@ -1,10 +1,16 @@
-package com.example.matejs.myapplication;
+package com.example.nextpin.myNextPinApp;
 
 
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+
+import android.support.design.widget.FloatingActionButton;
+
+import com.example.nextpin.myNextPinApp.preference.SharedPrefUtils;
 
 import net.nextpin.geolib.NextPin;
 import net.nextpin.geolib.NextPinListener;
@@ -14,15 +20,19 @@ import java.util.Calendar;
 import java.util.List;
 public class MainActivity extends AppCompatActivity implements NextPinListener,NextPin.GeoActivityReceiver {
 
+    String nextPinToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_main);
 
         NextPin nextPin= NextPin.getNextPinInstance(this);
-        nextPin.setToken("matej");
+        nextPinToken = SharedPrefUtils.getString(getApplicationContext(),
+                PreferencesFragment.PREF_TOKEN);
 
         nextPin.start();
+        nextPin.setToken(nextPinToken);
         nextPin.setNotificationGpsOff(true, R.mipmap.ic_launcher, MainActivity.class);
         nextPin.addListener(this);
 
@@ -43,10 +53,22 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
         end.set(Calendar.MINUTE, 59);
         end.set(Calendar.SECOND, 59);
         end.set(Calendar.MILLISECOND, 999);
+        //example how to call Activities for specific days
         nextPin.getGeoActivities(this,start,end);
 
 
-        setContentView(R.layout.activity_main);
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PrefsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override

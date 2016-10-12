@@ -1,4 +1,4 @@
-package com.example.matejs.myapplication;
+package com.example.matejs.myNextPinApp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

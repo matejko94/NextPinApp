@@ -1,4 +1,4 @@
-package com.example.matejs.myapplication;
+package com.example.matejs.myNextPinApp;
 
 import org.junit.Test;
 
