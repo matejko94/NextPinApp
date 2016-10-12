@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
         textView.setText(test);
 
         //for specific stay point you can call next place prediction
-        NextPin.getNextPinInstance(MainActivity.this).getGeoPrediction(this, list.get(0).getLocationId());
+//        NextPin.getNextPinInstance(MainActivity.this).getGeoPrediction(this, list.get(0).getLocationId());
 
     }
 
