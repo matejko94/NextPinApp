@@ -55,24 +55,14 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
         nextPin.addListener(this);
 
         Calendar start = Calendar.getInstance();
-        start.set(Calendar.DAY_OF_MONTH,1);
-        start.set(Calendar.MONTH,9);
-        start.set(Calendar.YEAR,2016);
         start.set(Calendar.HOUR_OF_DAY, 0);
         start.set(Calendar.MINUTE, 0);
         start.set(Calendar.SECOND, 0);
         start.set(Calendar.MILLISECOND, 0);
 
-        Calendar end = Calendar.getInstance();
-        end.set(Calendar.DAY_OF_MONTH,5);
-        end.set(Calendar.MONTH,9);
-        end.set(Calendar.YEAR,2016);
-        end.set(Calendar.HOUR_OF_DAY, 23);
-        end.set(Calendar.MINUTE, 59);
-        end.set(Calendar.SECOND, 59);
-        end.set(Calendar.MILLISECOND, 999);
+
         //example how to call Activities for specific days
-        nextPin.getGeoActivities(this,start,end);
+        nextPin.getGeoActivities(this,start);
 
 
         //It is posiible to make prediction for specific
@@ -114,13 +104,13 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
     public void receiveGeoActivities(List<GeoActivity> list) {
 
         //activity for specific day
-
-        TextView textView= (TextView) findViewById(R.id.testView);
-        String test="";
-        for(GeoActivity geoActivity:list)
-            test=test+geoActivity.getName()+" "+geoActivity.getDuration()+" ";
-        textView.setText(test);
-
+        if(list!=null) {
+            TextView textView = (TextView) findViewById(R.id.testView);
+            String test = "";
+            for (GeoActivity geoActivity : list)
+                test = test + geoActivity.getName() + " " + geoActivity.getDuration() + " ";
+            textView.setText(test);
+        }
         //for specific stay point you can call next place prediction
 //        NextPin.getNextPinInstance(MainActivity.this).getGeoPrediction(this, list.get(0).getLocationId());
 
