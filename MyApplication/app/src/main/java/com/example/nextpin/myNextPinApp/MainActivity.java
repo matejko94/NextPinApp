@@ -45,13 +45,18 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
             }
         });
 
+
         NextPin nextPin= NextPin.getNextPinInstance(this);
         nextPinToken = SharedPrefUtils.getString(getApplicationContext(),
                 PreferencesFragment.PREF_TOKEN);
 
+        //if you want to track cordinates/accelerometer and other things you can
         nextPin.start();
+        //if you dont define unique token for specific person/object you cant get data
         nextPin.setToken(nextPinToken);
+        //just show notification if user shut down gps
         nextPin.setNotificationGpsOff(true, R.mipmap.ic_launcher, MainActivity.class);
+        //add standard listeners
         nextPin.addListener(this);
 
         Calendar start = Calendar.getInstance();
@@ -60,14 +65,14 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
         start.set(Calendar.SECOND, 0);
         start.set(Calendar.MILLISECOND, 0);
 
-
-        //example how to call Activities for specific days
+        //example how to call Activities for specific day it is possible also get activity for more than one days
         nextPin.getGeoActivities(this,start);
 
 
-        //It is posiible to make prediction for specific
-        // nextPin.getGeoPrediction();
 
+
+        //It is posiible to get prediction for next place for specific stay point
+        // nextPin.getGeoPrediction();
 
 
 
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
 
     @Override
     public void onLocalLocationDetected(Location location) {
-
+        //last detected location in library
     }
 
     @Override
@@ -133,21 +138,27 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
     @Override
     public void onLastSentLocation(Location location) {
 
+        //last location which was send on server
+
     }
 
     @Override
     public void onWakeUp() {
 
+        //library wakes to retrieve new data.
+
+
     }
 
     @Override
     public void onLastRejectedLocation(Location location) {
+        //last rejected location
 
     }
 
     @Override
     public void onNewStayPoint() {
-
+        //maybe you need to update list of stay points
     }
 
     @Override
