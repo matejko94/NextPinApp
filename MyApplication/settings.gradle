@@ -1,1 +1,1 @@
-include ':app', ':NextPinLib-debug'
+include ':app', ':NextPinLib'

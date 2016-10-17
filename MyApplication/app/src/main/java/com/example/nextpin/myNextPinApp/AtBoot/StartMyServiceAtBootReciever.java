@@ -13,7 +13,6 @@ import net.nextpin.geolib.NextPin;
 
 public class StartMyServiceAtBootReciever extends BroadcastReceiver {
     public static String PROP_TOKEN = "PREF_TOKEN";
-    public static String PROP_LOCATION_INTERVAL = "PROP_LOCATION_INTERVAL";
 
     @Override
     public void onReceive(Context context, Intent intent) {

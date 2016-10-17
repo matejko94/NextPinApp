@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
     String nextPinToken;
     TextView tvPermissionsProblem;
 
-    private static final String TAG = "OneDayFragment";
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NextPinListener,N
         nextPin.setNotificationGpsOff(true, R.mipmap.ic_launcher, MainActivity.class);
         //add standard listeners
         nextPin.addListener(this);
+
+        //
 
         Calendar start = Calendar.getInstance();
         start.set(Calendar.HOUR_OF_DAY, 0);
